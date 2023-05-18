@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <>
-      <Navbar className="mx-auto max-w-screen-xl p-2  lg:pl-6 ">
+      <Navbar className="mx-auto max-w-7xl px-8 ">
         <div className="relative mx-auto flex items-center text-blue-gray-900">
           <Link
             to={'/'}
