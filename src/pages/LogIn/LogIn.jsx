@@ -100,7 +100,7 @@ const LogIn = () => {
             color="amber"
             type="submit"
             fullWidth>
-            Register
+            Sign In
           </Button>
           <Typography
             color="gray"

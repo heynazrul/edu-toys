@@ -9,7 +9,7 @@ import {
 import { Avatar, Button, Menu, MenuHandler, MenuItem, MenuList, Typography } from '@material-tailwind/react';
 import {  createElement, useState } from 'react';
 
-const ProfileMenu = () => {
+const ProfileMenu = ({ handleLogOut }) => {
   const profileMenuItems = [
     {
       label: 'My Profile',
@@ -77,7 +77,8 @@ const ProfileMenu = () => {
                 as="span"
                 variant="small"
                 className="font-normal"
-                color={isLastItem ? 'red' : 'inherit'}>
+                color={isLastItem ? 'red' : 'inherit'}
+                onClick={handleLogOut}>
                 {label}
               </Typography>
             </MenuItem>
