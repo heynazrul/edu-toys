@@ -5,23 +5,26 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
 
-const LogIn = () => {
-  const { signIn } = useContext(AuthContext);
-  const handleLogIn = (e) => {
+const Register = () => {
+  const { registerUser } = useContext(AuthContext);
+
+  const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
+    const name = form.name.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    const photo = form.photo.value;
+    console.log(email, password, name, photo);
 
-    const toastPromise = toast.loading('Please wait...');
+    const toastPromise = toast.loading('Please wait registering...');
 
-    signIn(email, password)
+    registerUser(email, password)
       .then((result) => {
         const user = result.user;
         console.log(user);
         toast.update(toastPromise, {
-          render: 'Sign In Successful!',
+          render: 'Registration Successful!',
           type: 'success',
           isLoading: false,
           autoClose: 3000,
@@ -39,7 +42,18 @@ const LogIn = () => {
           closeOnClick: true,
         });
       });
+
+    // toast.promise(
+    //   registerPromise,
+    //     {
+    //         pending: "Signing you up...",
+    //         success: "Registration Successful",
+    //         error: "Sorry! Something wrong"
+
+    //     }
+    // );
   };
+
   return (
     <div className="mx-auto max-w-7xl px-8  py-24">
       <Card
@@ -50,12 +64,12 @@ const LogIn = () => {
           <Typography
             variant="h4"
             color="blue-gray">
-            Sign In
+            Sign Up
           </Typography>
           <Typography
             color="gray"
             className="mt-1 font-normal">
-            Enter your details to Sign In.
+            Enter your details to Sign Up.
           </Typography>
         </div>
 
@@ -71,14 +85,21 @@ const LogIn = () => {
         <div className="mt-6 flex items-center justify-between">
           <span className="w-1/5 border-b  lg:w-1/4"></span>
 
-          <p className="text-center text-xs uppercase text-gray-500 ">or login with email</p>
+          <p className="text-center text-xs uppercase text-gray-500 ">or sign up with email</p>
 
           <span className="w-1/5 border-b  lg:w-1/4"></span>
         </div>
         <form
-          onSubmit={handleLogIn}
+          onSubmit={handleRegister}
           className="mb-2 mt-8 w-80 max-w-screen-lg sm:w-96">
           <div className="mb-4 flex flex-col gap-6">
+            <Input
+              size="lg"
+              label="Name"
+              type="text"
+              name="name"
+              color="blue-gray"
+            />
             <Input
               size="lg"
               label="Email"
@@ -93,6 +114,13 @@ const LogIn = () => {
               label="Password"
               color="blue-gray"
             />
+            <Input
+              size="lg"
+              label="Photo URL"
+              type="text"
+              name="photo"
+              color="blue-gray"
+            />
           </div>
 
           <Button
@@ -105,11 +133,11 @@ const LogIn = () => {
           <Typography
             color="gray"
             className="mt-4 text-center font-normal">
-            New to eduToys?{' '}
+            Already have an account?{' '}
             <Link
-              to={'/register'}
+              to={'/login'}
               className="font-medium text-blue-500 transition-colors hover:text-blue-700">
-              Register
+              Sign In
             </Link>
           </Typography>
         </form>
@@ -118,4 +146,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default Register;

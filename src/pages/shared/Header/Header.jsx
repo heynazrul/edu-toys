@@ -41,6 +41,9 @@ const Header = () => {
           <div className="absolute left-2/4 top-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
             <NavList />
           </div>
+
+          {/* Profile Menu */}
+
           <IconButton
             size="sm"
             color="blue-gray"
