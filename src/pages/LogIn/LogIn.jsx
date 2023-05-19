@@ -1,9 +1,10 @@
 import { Card, Input, Button, Typography } from '@material-tailwind/react';
 import { useContext } from 'react';
-import { FcGoogle } from 'react-icons/fc';
+
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
+import SocialLogin from '../shared/SocialLogin/SocialLogin';
 
 const LogIn = () => {
   const { signIn } = useContext(AuthContext);
@@ -40,6 +41,8 @@ const LogIn = () => {
         });
       });
   };
+
+  
   return (
     <div className="mx-auto max-w-7xl px-8  py-24">
       <Card
@@ -59,13 +62,8 @@ const LogIn = () => {
           </Typography>
         </div>
 
-        <Button
-          variant="outlined"
-          size="md"
-          className="mt-6 flex items-center justify-between "
-          fullWidth>
-          <FcGoogle size={24}></FcGoogle> <span className="flex-1">Continue with Google</span>
-        </Button>
+        {/* Social Login */}
+        <SocialLogin></SocialLogin>
 
         {/* Divider */}
         <div className="mt-6 flex items-center justify-between">
@@ -77,7 +75,7 @@ const LogIn = () => {
         </div>
         <form
           onSubmit={handleLogIn}
-          className="mb-2 mt-8 w-80 max-w-screen-lg sm:w-96">
+          className="mb-2 mt-8 w-full max-w-screen-lg sm:w-96">
           <div className="mb-4 flex flex-col gap-6">
             <Input
               size="lg"

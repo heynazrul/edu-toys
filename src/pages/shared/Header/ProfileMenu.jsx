@@ -6,10 +6,25 @@ import {
   LifebuoyIcon,
   PowerIcon,
 } from '@heroicons/react/24/outline';
-import { Avatar, Button, Menu, MenuHandler, MenuItem, MenuList, Typography } from '@material-tailwind/react';
-import {  createElement, useState } from 'react';
+import { Avatar, Button, Menu, MenuHandler, MenuItem, MenuList, Tooltip, Typography } from '@material-tailwind/react';
+import { createElement, useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../../providers/AuthProvider';
 
 const ProfileMenu = ({ handleLogOut }) => {
+  const { user } = useContext(AuthContext);
+
+  const [avatar, setAvatar] = useState(null);
+  useEffect(() => {
+    if (user.photoURL) {
+      setAvatar(user.photoURL);
+    } else if (user.displayName) {
+      const firstName = user.displayName.split('/')[0];
+      const lastName = user.displayName.split('/')[1];
+      setAvatar(`https://ui-avatars.com/api/?name=${firstName}+${lastName}`);
+    } else if (user.email) {
+      setAvatar(`https://ui-avatars.com/api/?name=${user.email}`);
+    }
+  }, [user]);
   const profileMenuItems = [
     {
       label: 'My Profile',
@@ -38,27 +53,32 @@ const ProfileMenu = ({ handleLogOut }) => {
 
   return (
     <Menu
+      
       open={isMenuOpen}
       handler={setIsMenuOpen}
       placement="bottom-end">
-      <MenuHandler>
-        <Button
-          variant="text"
-          color="blue-gray"
-          className="flex items-center gap-1 rounded-full py-0.5 pl-0.5 pr-2 lg:ml-auto">
-          <Avatar
-            variant="circular"
-            size="sm"
-            alt="candice wu"
-            className="border border-blue-500 p-0.5"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-          />
-          <ChevronDownIcon
-            strokeWidth={2.5}
-            className={`h-3 w-3 transition-transform ${isMenuOpen ? 'rotate-180' : ''}`}
-          />
-        </Button>
-      </MenuHandler>
+      <Tooltip
+        content={user.displayName ? user.displayName : ''}
+        placement="left">
+        <MenuHandler>
+          <Button
+            variant="text"
+            color="blue-gray"
+            className="flex items-center gap-1 rounded-full py-0.5 pl-0.5 pr-2 lg:ml-0">
+            <Avatar
+              variant="circular"
+              size="sm"
+              alt="candice wu"
+              className="border border-blue-500 p-0.5"
+              src={avatar}
+            />
+            <ChevronDownIcon
+              strokeWidth={2.5}
+              className={`h-3 w-3 transition-transform ${isMenuOpen ? 'rotate-180' : ''}`}
+            />
+          </Button>
+        </MenuHandler>
+      </Tooltip>
       <MenuList className="p-1">
         {profileMenuItems.map(({ label, icon }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;

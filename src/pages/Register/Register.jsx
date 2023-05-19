@@ -1,12 +1,14 @@
 import { Card, Input, Button, Typography } from '@material-tailwind/react';
-import { useContext } from 'react';
-import { FcGoogle } from 'react-icons/fc';
+import { InformationCircleIcon } from '@heroicons/react/24/solid';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
+import SocialLogin from '../shared/SocialLogin/SocialLogin';
 
 const Register = () => {
-  const { registerUser } = useContext(AuthContext);
+  const { registerUser, updateUser } = useContext(AuthContext);
+  const [customError, setCustomError] = useState(null);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -15,7 +17,12 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
     const photo = form.photo.value;
-    console.log(email, password, name, photo);
+
+    if (password && password.length < 6) {
+      setCustomError('Password should be at least 8 characters');
+    } else {
+      setCustomError(null);
+    }
 
     const toastPromise = toast.loading('Please wait registering...');
 
@@ -23,6 +30,7 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        updateUser(name, photo);
         toast.update(toastPromise, {
           render: 'Registration Successful!',
           type: 'success',
@@ -42,16 +50,6 @@ const Register = () => {
           closeOnClick: true,
         });
       });
-
-    // toast.promise(
-    //   registerPromise,
-    //     {
-    //         pending: "Signing you up...",
-    //         success: "Registration Successful",
-    //         error: "Sorry! Something wrong"
-
-    //     }
-    // );
   };
 
   return (
@@ -73,13 +71,7 @@ const Register = () => {
           </Typography>
         </div>
 
-        <Button
-          variant="outlined"
-          size="md"
-          className="mt-6 flex items-center justify-between "
-          fullWidth>
-          <FcGoogle size={24}></FcGoogle> <span className="flex-1">Continue with Google</span>
-        </Button>
+        <SocialLogin></SocialLogin>
 
         {/* Divider */}
         <div className="mt-6 flex items-center justify-between">
@@ -91,7 +83,7 @@ const Register = () => {
         </div>
         <form
           onSubmit={handleRegister}
-          className="mb-2 mt-8 w-80 max-w-screen-lg sm:w-96">
+          className="mb-2 mt-8 w-full max-w-screen-lg sm:w-96">
           <div className="mb-4 flex flex-col gap-6">
             <Input
               size="lg"
@@ -106,14 +98,35 @@ const Register = () => {
               type="email"
               name="email"
               color="blue-gray"
+              required
             />
-            <Input
+            <div className="w-full">
+              <Input
+                type="password"
+                name="password"
+                size="lg"
+                label="Password"
+                color="blue-gray"
+                required
+              />
+              {customError && (
+                <Typography
+                  variant="small"
+                  color="red"
+                  className="mt-2 flex items-center gap-1 font-normal">
+                  <InformationCircleIcon className="-mt-px h-4 w-4" />
+                  {customError}
+                </Typography>
+              )}
+            </div>
+            {/* <Input
               type="password"
               name="password"
               size="lg"
               label="Password"
               color="blue-gray"
-            />
+              required
+            /> */}
             <Input
               size="lg"
               label="Photo URL"

@@ -70,7 +70,7 @@ const Header = () => {
 
           {/* Profile Menu */}
           {user ? (
-              <ProfileMenu handleLogOut={handleLogOut} />
+            <ProfileMenu handleLogOut={handleLogOut} />
           ) : (
             <Link to={'/login'}>
               <Button
