@@ -1,11 +1,19 @@
 import { Button, Input, Option, Select, Textarea, Typography } from '@material-tailwind/react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
 
 const AddToy = () => {
   const { user } = useContext(AuthContext);
   const [selected, setSelected] = useState('');
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/categories')
+      .then((res) => res.json())
+      .then((data) => setCategories(data));
+  }, []);
 
   const handleAddToy = (e) => {
     e.preventDefault();
@@ -31,6 +39,8 @@ const AddToy = () => {
       photo,
       description,
     };
+
+    console.log(toy);
     
     fetch('http://localhost:5000/toys', {
         method: 'POST',
@@ -46,6 +56,7 @@ const AddToy = () => {
             toast.success('Toy added successfully')
         }
       });
+      form.reset()
   };
   return (
     <div className="mx-auto max-w-7xl px-8  py-24">
@@ -105,11 +116,17 @@ const AddToy = () => {
               label="Price"
               color="blue-gray"
             />
-            <Select name='category' onChange={e => setSelected(e)} label="Category">
-              <Option value='Math Toys'>Math Toys</Option>
+            <Select
+              name="category"
+              onChange={(e) => setSelected(e)}
+              label="Category">
+              {categories.map(({ label, value }) => (
+                <Option key={value} value={value}>{label} Toys</Option>
+              ))}
+              {/* <Option value="Math Toys">Math Toys</Option>
               <Option value="Science Toys">Science Toys</Option>
               <Option value="Puzzle Toys">Puzzle Toys</Option>
-              <Option value="Language Toys">Language Toys</Option>
+              <Option value="Language Toys">Language Toys</Option> */}
             </Select>
             <Input
               size="lg"
