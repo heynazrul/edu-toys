@@ -1,22 +1,97 @@
-import { Button, Input, Typography } from '@material-tailwind/react';
-import { Link } from 'react-router-dom';
+import { Button, Input, Option, Select, Textarea, Typography } from '@material-tailwind/react';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const AddToy = () => {
+  const { user } = useContext(AuthContext);
+  const [selected, setSelected] = useState('');
+
+  const handleAddToy = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const sellerName = form.sellerName.value;
+    const email = form.email.value;
+    const toyName = form.toyName.value;
+    const price = form.price.value;
+    const category = selected;
+    const rating = form.rating.value;
+    const quantity = form.quantity.value;
+    const photo = form.photo.value;
+    const description = form.desc.value;
+
+    const toy = {
+      sellerName,
+      email,
+      toyName,
+      price,
+      category,
+      rating,
+      quantity,
+      photo,
+      description,
+    };
+    
+    fetch('http://localhost:5000/toys', {
+        method: 'POST',
+        headers: {
+            'content-type' : 'application/json'
+        },
+        body: JSON.stringify(toy)
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
   return (
     <div className="mx-auto max-w-7xl px-8  py-24">
-      <form className="mx-auto mb-2 mt-8 max-w-screen-lg  ">
-        <>
+      <Typography
+        as="h2"
+        color="blue-gray"
+        className="mb-4 text-center text-3xl font-bold">
+        Add New Toy
+      </Typography>
+      <form
+        onSubmit={handleAddToy}
+        className="mx-auto mb-2 mt-8 max-w-screen-lg  ">
+        <div>
           <Typography
             color="blue-gray"
-            className="mb-4 font-medium">
-            Personal Details
+            className="mb-4 font-bold">
+            Seller Details
           </Typography>
-          <div className="mb-4 flex  gap-6">
+          <div className="mb-4 grid grid-cols-1 gap-6 md:grid-cols-2 ">
+            <Input
+              size="lg"
+              label="Seller Name"
+              type="text"
+              name="sellerName"
+              color="blue-gray"
+              defaultValue={user.displayName ? user?.displayName : ''}
+            />
+            <Input
+              type="email"
+              name="email"
+              size="lg"
+              label="Seller Email"
+              color="blue-gray"
+              defaultValue={user.email}
+              readOnly
+            />
+          </div>
+        </div>
+        <div>
+          <Typography
+            color="blue-gray"
+            className="mb-4 font-bold">
+            Toys Details
+          </Typography>
+          <div className="mb-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <Input
               size="lg"
               label="Toy Name"
               type="text"
-              name="name"
+              name="toyName"
               color="blue-gray"
             />
             <Input
@@ -26,56 +101,50 @@ const AddToy = () => {
               label="Price"
               color="blue-gray"
             />
+            <Select name='category' onChange={e => setSelected(e)} label="Category">
+              <Option value='Math Toys'>Math Toys</Option>
+              <Option value="Science Toys">Science Toys</Option>
+              <Option value="Puzzle Toys">Puzzle Toys</Option>
+              <Option value="Language Toys">Language Toys</Option>
+            </Select>
             <Input
               size="lg"
-              label="Toy Name"
+              label="Rating"
+              type="number"
+              name="rating"
+              color="blue-gray"
+              min={0}
+              max={5}
+            />
+            <Input
+              type="number"
+              name="quantity"
+              size="lg"
+              label="Quantity"
+              color="blue-gray"
+            />
+            <Input
               type="text"
-              name="name"
+              name="photo"
+              size="lg"
+              label="Toy Image"
               color="blue-gray"
             />
           </div>
-        </>
-        <div className="mb-4 flex  gap-6">
-          <Input
-            size="lg"
-            label="Email"
-            type="email"
-            name="email"
-            color="blue-gray"
-          />
-          <Input
-            type="password"
-            name="password"
-            size="lg"
-            label="Password"
-            color="blue-gray"
-          />
-          <Input
-            type="password"
-            name="password"
-            size="lg"
-            label="Password"
-            color="blue-gray"
+          <Textarea
+            label="Details Description"
+            name="desc"
           />
         </div>
 
         <Button
           className="mt-6"
-          color="amber"
+          size="lg"
+          color="purple"
           type="submit"
           fullWidth>
-          Sign In
+          Confirm
         </Button>
-        <Typography
-          color="gray"
-          className="mt-4 text-center font-normal">
-          New to eduToys?{' '}
-          <Link
-            to={'/register'}
-            className="font-medium text-blue-500 transition-colors hover:text-blue-700">
-            Register
-          </Link>
-        </Typography>
       </form>
     </div>
   );
