@@ -2,13 +2,14 @@ import {
   ChevronDownIcon,
   UserCircleIcon,
   Cog6ToothIcon,
-  InboxArrowDownIcon,
-  LifebuoyIcon,
+  PuzzlePieceIcon,
   PowerIcon,
+  PlusCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Avatar, Button, Menu, MenuHandler, MenuItem, MenuList, Tooltip, Typography } from '@material-tailwind/react';
 import { createElement, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../providers/AuthProvider';
+import { Link } from 'react-router-dom';
 
 const ProfileMenu = ({ handleLogOut }) => {
   const { user } = useContext(AuthContext);
@@ -27,21 +28,26 @@ const ProfileMenu = ({ handleLogOut }) => {
   }, [user]);
   const profileMenuItems = [
     {
+      label: 'Add Toy',
+      icon: PlusCircleIcon,
+      path: '/user/add-toy',
+    },
+    {
+      label: 'My Toys',
+      icon: PuzzlePieceIcon,
+      path: '/user/my-toy',
+    },
+    {
       label: 'My Profile',
       icon: UserCircleIcon,
+      path: '/profile',
     },
     {
       label: 'Edit Profile',
       icon: Cog6ToothIcon,
+      path: '/edit-profile',
     },
-    {
-      label: 'Inbox',
-      icon: InboxArrowDownIcon,
-    },
-    {
-      label: 'Help',
-      icon: LifebuoyIcon,
-    },
+
     {
       label: 'Sign Out',
       icon: PowerIcon,
@@ -53,7 +59,6 @@ const ProfileMenu = ({ handleLogOut }) => {
 
   return (
     <Menu
-      
       open={isMenuOpen}
       handler={setIsMenuOpen}
       placement="bottom-end">
@@ -80,27 +85,40 @@ const ProfileMenu = ({ handleLogOut }) => {
         </MenuHandler>
       </Tooltip>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon, path }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
+
           return (
             <MenuItem
               key={label}
               onClick={closeMenu}
-              className={`flex items-center gap-2 rounded ${
-                isLastItem ? 'hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10' : ''
-              }`}>
-              {createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? 'text-red-500' : ''}`,
-                strokeWidth: 2,
-              })}
-              <Typography
-                as="span"
-                variant="small"
-                className="font-normal"
-                color={isLastItem ? 'red' : 'inherit'}
-                onClick={handleLogOut}>
-                {label}
-              </Typography>
+              className={` ${isLastItem ? 'hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10' : ''}`}>
+              <Link
+                to={path}
+                className="flex items-center gap-2 rounded">
+                {createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? 'text-red-500' : ''}`,
+                  strokeWidth: 2,
+                })}
+                {isLastItem ? (
+                  <Typography
+                    as="span"
+                    variant="small"
+                    className="font-normal"
+                    color={isLastItem ? 'red' : 'inherit'}
+                    onClick={handleLogOut}>
+                    {label}
+                  </Typography>
+                ) : (
+                  <Typography
+                    as="span"
+                    variant="small"
+                    className="font-normal"
+                    color={isLastItem ? 'red' : 'inherit'}>
+                    {label}
+                  </Typography>
+                )}
+              </Link>
             </MenuItem>
           );
         })}
