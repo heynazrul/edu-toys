@@ -1,6 +1,7 @@
 import { Button, Input, Option, Select, Textarea, Typography } from '@material-tailwind/react';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
+import { toast } from 'react-toastify';
 
 const AddToy = () => {
   const { user } = useContext(AuthContext);
@@ -41,6 +42,9 @@ const AddToy = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        if(data.insertedId){
+            toast.success('Toy added successfully')
+        }
       });
   };
   return (
