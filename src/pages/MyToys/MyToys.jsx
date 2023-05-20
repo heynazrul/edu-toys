@@ -18,6 +18,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { HiOutlineTrash } from 'react-icons/hi';
 import UpdateToyModal from './UpdateToyModal';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const MyToys = () => {
   const { user } = useContext(AuthContext);
@@ -71,6 +72,33 @@ const MyToys = () => {
           toast.error('Update failed. Try again');
         }
       });
+  };
+
+  //   Delete button function
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/toys/${id}`, {
+          method: 'DELETE',
+        })
+          .then((res) => res.json())
+          .then((data) => {
+
+            if (data.deletedCount > 0) {
+              Swal.fire('Deleted!', 'Your toy has been deleted.', 'success');
+              setReFetch(!reFetch);
+            }
+          });
+      }
+    });
   };
 
   const TABLE_HEAD = ['Toy Name', 'Sub-category', 'Seller Name', 'Price', 'Quantity', ''];
@@ -139,7 +167,7 @@ const MyToys = () => {
           </thead>
           <tbody>
             {TABLE_ROWS.map((toy, index) => {
-              const { sellerName, email, toyName, category, price, quantity, photo } = toy;
+              const { sellerName, email, toyName, category, price, quantity, photo, _id } = toy;
               const isLast = index === TABLE_ROWS.length - 1;
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
 
@@ -186,12 +214,6 @@ const MyToys = () => {
                         {email}
                       </Typography>
                     </div>
-                    {/* <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal">
-                      {date}
-                    </Typography> */}
                   </td>
                   {/* Price */}
                   <td className={classes}>
@@ -215,6 +237,7 @@ const MyToys = () => {
                       <Tooltip
                         content="Update Toy"
                         className="bg-orange-600">
+                        {/* update button */}
                         <IconButton
                           onClick={() => handleOpen(toy)}
                           variant="outlined"
@@ -225,7 +248,10 @@ const MyToys = () => {
                       <Tooltip
                         content="Delete"
                         className="bg-red-500">
-                        <IconButton color="red">
+                        {/* Delete Button */}
+                        <IconButton
+                          onClick={() => handleDelete(_id)}
+                          color="red">
                           <HiOutlineTrash className="h-6 w-6" />
                         </IconButton>
                       </Tooltip>
