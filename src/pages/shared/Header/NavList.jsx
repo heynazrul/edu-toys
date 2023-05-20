@@ -1,6 +1,6 @@
 import { Button, MenuItem, Typography } from "@material-tailwind/react";
 
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 
 const NavList = () => {
@@ -19,19 +19,25 @@ const NavList = () => {
       },
     ];
 
+
     return (
       <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
         {navListItems.map(({ label, path }) => (
-          <Link
+          <NavLink
+            className={({ isActive }) => {
+              return isActive
+                ? 'border-b-2 text-primary duration-300 border-primary'
+                : ' border-b-2 border-transparent  duration-300 hover:border-gray-400   ';
+            }}
             key={label}
             to={path}>
             <Typography
               variant="small"
               color="blue-gray"
-              className="font-normal">
-              <MenuItem className="flex items-center gap-2 lg:rounded-full">{label}</MenuItem>
+              className='font-normal'>
+              <MenuItem className="flex items-center gap-2 lg:rounded-full hover:bg-transparent">{label}</MenuItem>
             </Typography>
-          </Link>
+          </NavLink>
         ))}
         <Link to={'/login'}>
           <Button
