@@ -35,7 +35,7 @@ const ProfileMenu = ({ handleLogOut }) => {
     {
       label: 'My Toys',
       icon: PuzzlePieceIcon,
-      path: '/user/my-toy',
+      path: '/user/my-toys',
     },
     {
       label: 'My Profile',
