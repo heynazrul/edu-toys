@@ -22,13 +22,13 @@ const ShopByCategory = () => {
  
 
     return (
-      <div className="mx-auto mt-12 max-w-7xl px-8">
+      <div className="mx-auto mt-12 max-w-7xl px-8 ">
         <h2 className="mb-12 text-center text-3xl font-bold">Shop By Category</h2>
         <Tabs
           id="custom-animation"
           value={activeTab}>
           <TabsHeader
-            className="rounded border-b border-blue-gray-50  "
+            className=" rounded border-b border-blue-gray-50 "
             indicatorProps={{
               className: 'bg-transparent border-b-2 border-blue-500 shadow-none rounded-none',
             }}>
@@ -43,12 +43,13 @@ const ShopByCategory = () => {
             ))}
           </TabsHeader>
           <TabsBody
+            className=""
             animate={{
               initial: { y: 250 },
               mount: { y: 0 },
               unmount: { y: 250 },
             }}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid min-h-[700px] grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
               {toys.map((toy) => (
                 <ToyCard
                   key={toy._id}

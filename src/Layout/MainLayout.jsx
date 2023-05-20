@@ -10,7 +10,9 @@ const MainLayout = () => {
     <>
       <Header></Header>
       <Outlet></Outlet>
-      <Footer></Footer>
+    
+        <Footer></Footer>
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
