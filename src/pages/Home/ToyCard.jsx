@@ -10,10 +10,15 @@ import {
   Rating,
   IconButton,
 } from '@material-tailwind/react';
+import { useContext } from 'react';
 
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const ToyCard = ({ toy }) => {
+  const {user} = useContext(AuthContext)
+  const navigate = useNavigate()
   const { _id, toyName, price, rating, photo, description } = toy;
 
   return (
@@ -64,14 +69,26 @@ const ToyCard = ({ toy }) => {
           ;
         </CardBody>
         <CardFooter className="pt-0">
-          <Link to={`/toy/${_id}`}>
-            <Button
-              ripple={false}
-              fullWidth={true}
-              className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100">
-              View Details
-            </Button>
-          </Link>
+          <Button
+            onClick={() => !user ? Swal.fire({
+              title: 'Ops! Login First',
+              text: "You have to login first to view details.",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Log me in!',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                 navigate(`/toy/${_id}`);
+              }
+            }) : navigate(`/toy/${_id}`) }
+            ripple={false}
+            fullWidth={true}
+            className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100">
+            View Details
+          </Button>
+       
         </CardFooter>
       </Card>
     </TabPanel>

@@ -1,7 +1,7 @@
 import { Card, Input, Button, Typography } from '@material-tailwind/react';
 import { InformationCircleIcon } from '@heroicons/react/24/solid';
 import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
 import SocialLogin from '../shared/SocialLogin/SocialLogin';
@@ -9,6 +9,7 @@ import SocialLogin from '../shared/SocialLogin/SocialLogin';
 const Register = () => {
   const { registerUser, updateUser } = useContext(AuthContext);
   const [customError, setCustomError] = useState(null);
+  const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -38,6 +39,7 @@ const Register = () => {
           autoClose: 3000,
           closeOnClick: true,
         });
+        navigate('/');
       })
       .catch((error) => {
         const message = error.message.split('/')[1].split(')')[0];

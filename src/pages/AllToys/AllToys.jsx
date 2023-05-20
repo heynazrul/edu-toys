@@ -10,20 +10,28 @@ import {
   IconButton,
   Input,
 } from '@material-tailwind/react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 
 import { FaPlus } from 'react-icons/fa';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import DetailsModal from '../shared/DetailsModal/DetailsModal';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const AllToys = () => {
   const [clickedID, setClickedID] = useState(null);
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { user } = useContext(AuthContext);
+
   const handleOpen = () => {
+    if (!user) {
+      navigate('/login', { replace: true, state: { from: location } });
+    }
     setOpen((cur) => !cur);
     // setClickedID(id);
   };
-  console.log(clickedID);
 
   const TABLE_HEAD = ['Toy Name', 'Sub-category', 'Seller Name', 'Price', 'Quantity', ''];
   const TABLE_ROWS = useLoaderData();
@@ -163,8 +171,8 @@ const AllToys = () => {
                   </td>
                   <td className={classes}>
                     <Button
-                      onClick={ handleOpen}
-                      onMouseDown={()=> setClickedID(_id)}
+                      onClick={handleOpen}
+                      onMouseUp={() => setClickedID(_id)}
                       variant="outlined"
                       size="sm"
                       className="flex items-center gap-3">

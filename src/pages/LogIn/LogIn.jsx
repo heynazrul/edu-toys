@@ -1,19 +1,24 @@
 import { Card, Input, Button, Typography } from '@material-tailwind/react';
 import { useContext } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
 import SocialLogin from '../shared/SocialLogin/SocialLogin';
 
 const LogIn = () => {
   const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+
+  console.log(location);
   const handleLogIn = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+
 
     const toastPromise = toast.loading('Please wait...');
 
@@ -28,6 +33,7 @@ const LogIn = () => {
           autoClose: 3000,
           closeOnClick: true,
         });
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         const message = error.message.split('/')[1].split(')')[0];

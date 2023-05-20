@@ -1,40 +1,44 @@
-import { Button } from "@material-tailwind/react";
-import { useContext } from "react";
+import { Button } from '@material-tailwind/react';
+import { useContext } from 'react';
 import { FcGoogle } from 'react-icons/fc';
-import { AuthContext } from "../../../providers/AuthProvider";
-import { toast } from "react-toastify";
-
+import { AuthContext } from '../../../providers/AuthProvider';
+import { toast } from 'react-toastify';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SocialLogin = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
-    const { signInWithGoogle } = useContext(AuthContext);
+  const { signInWithGoogle } = useContext(AuthContext);
 
-    const handleGoogleLogin = () => {
-      const toastPromise = toast.loading('Please wait...');
-      signInWithGoogle()
-        .then((result) => {
-          const user = result.user;
-          console.log(user);
-          toast.update(toastPromise, {
-            render: 'Sign In Successful!',
-            type: 'success',
-            isLoading: false,
-            autoClose: 3000,
-            closeOnClick: true,
-          });
-        })
-        .catch((error) => {
-          const message = error?.message?.split('/')[1]?.split(')')[0];
-
-          toast.update(toastPromise, {
-            render: message,
-            type: 'error',
-            isLoading: false,
-            autoClose: 3000,
-            closeOnClick: true,
-          });
+  const handleGoogleLogin = () => {
+    const toastPromise = toast.loading('Please wait...');
+    signInWithGoogle()
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast.update(toastPromise, {
+          render: 'Sign In Successful!',
+          type: 'success',
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
         });
-    };
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        const message = error?.message?.split('/')[1]?.split(')')[0];
+
+        toast.update(toastPromise, {
+          render: message,
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        });
+      });
+  };
 
   return (
     <Button

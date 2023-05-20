@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 const DetailsModal = ({ handleOpen, open, clickedID }) => {
   const [toy, setToy] = useState([]);
-  console.log(clickedID);
   useEffect(() => {
     if (!clickedID) {
       return;
