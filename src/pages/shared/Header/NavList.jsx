@@ -26,7 +26,7 @@ const NavList = () => {
           <NavLink
             className={({ isActive }) => {
               return isActive
-                ? 'border-b-2 text-primary duration-300 border-primary'
+                ? 'border-b-2 text-primary duration-300 border-transparent lg:border-primary'
                 : ' border-b-2 border-transparent  duration-300 hover:border-gray-400   ';
             }}
             key={label}
@@ -35,7 +35,7 @@ const NavList = () => {
               variant="small"
               color="blue-gray"
               className='font-normal'>
-              <MenuItem className="flex items-center gap-2 lg:rounded-full hover:bg-transparent">{label}</MenuItem>
+              <MenuItem className="flex items-center gap-2 lg:rounded-full lg:hover:bg-transparent">{label}</MenuItem>
             </Typography>
           </NavLink>
         ))}
