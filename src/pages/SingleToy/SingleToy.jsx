@@ -1,5 +1,6 @@
 import { Rating } from '@material-tailwind/react';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useLoaderData } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -20,6 +21,9 @@ const SingleToy = () => {
   };
   return (
     <section className="body-font overflow-hidden bg-white text-gray-700">
+      <Helmet>
+        <title>Edu Toy | {toyName}</title>
+      </Helmet>
       <div className="container mx-auto px-5 py-24">
         <div className="mx-auto flex flex-wrap lg:w-4/5">
           <img

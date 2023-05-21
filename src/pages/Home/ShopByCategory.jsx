@@ -2,25 +2,28 @@ import { Tab, Tabs, TabsBody, TabsHeader } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 import ToyCard from './ToyCard';
 
+
 const ShopByCategory = () => {
   const [activeTab, setActiveTab] = useState('science');
   const [categories, setCategories] = useState([]);
   const [toys, setToys] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/toys/${activeTab}`)
+    fetch(`https://edu-toys-server-seven.vercel.app/toys/${activeTab}`)
       .then((res) => res.json())
       .then((data) => setToys(data));
   }, [activeTab]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/categories')
+    fetch('https://edu-toys-server-seven.vercel.app/categories')
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, []);
 
   return (
-    <div className="mx-auto mt-12 max-w-7xl px-2  lg:px-8 ">
+    <div
+      className="mx-auto mt-12 max-w-7xl px-2  lg:px-8 "
+      >
       <h2 className="mb-12 text-center text-3xl font-bold">Shop By Category</h2>
       <Tabs
         id="custom-animation"

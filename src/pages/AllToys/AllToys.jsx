@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import DetailsModal from '../shared/DetailsModal/DetailsModal';
 import { AuthContext } from '../../providers/AuthProvider';
 import Pagination from '../shared/Pagination/Pagination';
+import { Helmet } from 'react-helmet';
 
 const AllToys = () => {
   const [clickedID, setClickedID] = useState(null);
@@ -32,13 +33,13 @@ const AllToys = () => {
   // Load all toy or  on search text query
   useEffect(() => {
     if (searchText === '') {
-      fetch(`http://localhost:5000/allToys?page=${currentPage}&limit=${itemsPerPage}`)
+      fetch(`https://edu-toys-server-seven.vercel.app/allToys?page=${currentPage}&limit=${itemsPerPage}`)
         .then((res) => res.json())
         .then((data) => setToys(data));
     }
 
     if (searchText !== '') {
-      fetch(`http://localhost:5000/searchByToy/${searchText}`)
+      fetch(`https://edu-toys-server-seven.vercel.app/searchByToy/${searchText}`)
         .then((res) => res.json())
         .then((data) => {
           setToys(data);
@@ -62,6 +63,9 @@ const AllToys = () => {
 
   return (
     <Card className="mx-auto my-12 h-full max-w-7xl">
+      <Helmet>
+        <title>Edu Toy | All Toys</title>
+      </Helmet>
       <CardHeader
         floated={false}
         shadow={false}

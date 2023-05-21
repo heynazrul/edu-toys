@@ -2,6 +2,7 @@ import { Button, Input, Option, Select, Textarea, Typography } from '@material-t
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
+import { Helmet } from 'react-helmet';
 
 const AddToy = () => {
   const { user } = useContext(AuthContext);
@@ -10,7 +11,7 @@ const AddToy = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/categories')
+    fetch('https://edu-toys-server-seven.vercel.app/categories')
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, []);
@@ -42,7 +43,7 @@ const AddToy = () => {
 
     console.log(toy);
 
-    fetch('http://localhost:5000/toys', {
+    fetch('https://edu-toys-server-seven.vercel.app/toys', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -60,6 +61,10 @@ const AddToy = () => {
   };
   return (
     <div className="mx-auto max-w-7xl px-8  py-24">
+      <Helmet>
+        <title>Edu Toy | Add Toy</title>
+      </Helmet>
+
       <Typography
         as="h2"
         color="blue-gray"

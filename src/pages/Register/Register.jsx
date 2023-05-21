@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
 import SocialLogin from '../shared/SocialLogin/SocialLogin';
+import { Helmet } from 'react-helmet';
 
 const Register = () => {
   const { registerUser, updateUser } = useContext(AuthContext);
@@ -56,6 +57,9 @@ const Register = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-8  py-24">
+      <Helmet>
+        <title>Edu Toy | Register</title>
+      </Helmet>
       <Card
         color="transparent"
         shadow={false}

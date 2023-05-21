@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../providers/AuthProvider';
 
+
 const ToyCard = ({ toy }) => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const ToyCard = ({ toy }) => {
           <img
             src={photo}
             className="h-full w-full object-cover"
+            
           />
           <IconButton
             size="sm"

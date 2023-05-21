@@ -20,6 +20,7 @@ import { HiOutlineTrash } from 'react-icons/hi';
 import UpdateToyModal from './UpdateToyModal';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet';
 
 const MyToys = () => {
   const { user } = useContext(AuthContext);
@@ -36,7 +37,7 @@ const MyToys = () => {
   };
 
   // get all jobs of user
-  const url = `http://localhost:5000/toys?email=${user.email}`;
+  const url = `https://edu-toys-server-seven.vercel.app/toys?email=${user.email}`;
   useEffect(() => {
     if (order) {
       fetch(url, {
@@ -72,7 +73,7 @@ const MyToys = () => {
       quantity,
       description,
     };
-    fetch(`http://localhost:5000/toys/${_id}`, {
+    fetch(`https://edu-toys-server-seven.vercel.app/toys/${_id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',
@@ -103,7 +104,7 @@ const MyToys = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/toys/${id}`, {
+        fetch(`https://edu-toys-server-seven.vercel.app/toys/${id}`, {
           method: 'DELETE',
         })
           .then((res) => res.json())
@@ -122,6 +123,9 @@ const MyToys = () => {
 
   return (
     <Card className="mx-auto my-12 h-full max-w-7xl">
+      <Helmet>
+        <title>Edu Toy | My Toys</title>
+      </Helmet>
       <CardHeader
         floated={false}
         shadow={false}

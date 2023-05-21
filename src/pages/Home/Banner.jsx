@@ -1,5 +1,6 @@
 import { Carousel, Typography, Button } from '@material-tailwind/react';
 
+
 const Banner = () => {
   return (
     <Carousel loop={true}>

@@ -2,13 +2,17 @@ import { Link, useRouteError } from 'react-router-dom';
 
 import './ErrorPage.css';
 import { Button } from '@material-tailwind/react';
+import { Helmet } from 'react-helmet';
 
 const ErrorPage = () => {
   const error = useRouteError();
   console.log(error.data);
 
   return (
-    <div className='error-body'>
+    <div className="error-body">
+      <Helmet>
+        <title>Edu Toy | Error!</title>
+      </Helmet>
       <div className="mx-auto flex max-w-7xl flex-col space-y-5 py-12">
         <div>
           <svg
