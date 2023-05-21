@@ -1,49 +1,53 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import {
-  Card,
-  CardHeader,
-  Typography,
-  Button,
-  CardBody,
-  CardFooter,
-  Avatar,
-  IconButton,
-  Input,
-} from '@material-tailwind/react';
+import { Card, CardHeader, Typography, Button, CardBody, CardFooter, Avatar, Input } from '@material-tailwind/react';
 import { Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 
 import { FaPlus } from 'react-icons/fa';
 import { useContext, useEffect, useState } from 'react';
 import DetailsModal from '../shared/DetailsModal/DetailsModal';
 import { AuthContext } from '../../providers/AuthProvider';
+import Pagination from '../shared/Pagination/Pagination';
 
 const AllToys = () => {
   const [clickedID, setClickedID] = useState(null);
   const [searchText, setSearchText] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
   const [toys, setToys] = useState([]);
-  const [totalToys, setTotalToys] = useState(0)
   const [open, setOpen] = useState(false);
+  // const [totalToys, setTotalToys] = useState(0);
+
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { user } = useContext(AuthContext);
-  // const { totalToys } = useLoaderData();
+  // control pagination
+  const { totalToys } = useLoaderData();
+  const itemsPerPage = 20;
+  const totalPages = Math.ceil(totalToys / itemsPerPage);
 
+  const pageNumbers = [...Array(totalPages).keys()];
+  console.log('page number', pageNumbers);
+
+  const { user } = useContext(AuthContext);
 
   // Load all toy or  on search text query
   useEffect(() => {
     if (searchText === '') {
-      fetch('http://localhost:5000/toys')
+      fetch(`http://localhost:5000/toys?page=${currentPage}&limit=${itemsPerPage}`)
         .then((res) => res.json())
         .then((data) => setToys(data));
     }
+
     if (searchText !== '') {
       fetch(`http://localhost:5000/searchByToy/${searchText}`)
         .then((res) => res.json())
-        .then((data) => setToys(data));
-      }
-      console.log(toys.length);
-  }, [searchText, toys.length]);
+        .then((data) => {
+          setToys(data);
+          // setTotalToys(toys.length);
+        });
+    }
+  }, [searchText, currentPage, itemsPerPage]);
+
+  console.log(totalToys);
 
   const handleOpen = () => {
     if (!user) {
@@ -218,63 +222,10 @@ const AllToys = () => {
           open={open}
           clickedID={clickedID}></DetailsModal>
       </CardBody>
-      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-        <Button
-          variant="outlined"
-          color="blue-gray"
-          size="sm">
-          Previous
-        </Button>
-        <div className="flex items-center gap-2">
-          <IconButton
-            variant="outlined"
-            color="blue-gray"
-            size="sm">
-            1
-          </IconButton>
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            size="sm">
-            2
-          </IconButton>
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            size="sm">
-            3
-          </IconButton>
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            size="sm">
-            ...
-          </IconButton>
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            size="sm">
-            8
-          </IconButton>
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            size="sm">
-            9
-          </IconButton>
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            size="sm">
-            10
-          </IconButton>
-        </div>
-        <Button
-          variant="outlined"
-          color="blue-gray"
-          size="sm">
-          Next
-        </Button>
+      <CardFooter className="flex items-center  border-t border-blue-gray-50 p-4">
+        <Pagination
+          pageNumbers={pageNumbers}
+          setCurrentPage={setCurrentPage}></Pagination>
       </CardFooter>
     </Card>
   );
