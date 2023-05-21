@@ -1,4 +1,4 @@
-import { PencilIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, StarIcon } from '@heroicons/react/24/outline';
 import {
   Card,
   CardHeader,
@@ -9,9 +9,10 @@ import {
   Avatar,
   IconButton,
   Tooltip,
+  Rating,
 } from '@material-tailwind/react';
 import { useContext, useEffect, useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { FaPlus, FaStar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { HiOutlineTrash } from 'react-icons/hi';
@@ -99,7 +100,7 @@ const MyToys = () => {
     });
   };
 
-  const TABLE_HEAD = ['Toy Name', 'Sub-category', 'Seller Name', 'Price', 'Quantity', ''];
+  const TABLE_HEAD = ['Toy Name', 'Sub-category', 'Rating', 'Price', 'Quantity', 'Description', 'Action'];
   const TABLE_ROWS = userToys;
 
   return (
@@ -159,7 +160,7 @@ const MyToys = () => {
           </thead>
           <tbody>
             {TABLE_ROWS.map((toy, index) => {
-              const { sellerName, email, toyName, category, price, quantity, photo, _id } = toy;
+              const { rating, description, toyName, category, price, quantity, photo, _id } = toy;
               const isLast = index === TABLE_ROWS.length - 1;
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
 
@@ -192,23 +193,21 @@ const MyToys = () => {
                       {category}
                     </Typography>
                   </td>
-                  {/* Seller Name */}
+                  {/* Rating */}
                   <td className={classes}>
-                    <div className="flex flex-col">
+                    <div className="flex items-center gap-2">
+                      <FaStar
+                        className="h-4 w-4"
+                        color="#FBC02D"></FaStar>
                       <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal">
-                        {sellerName}
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal opacity-70">
-                        {email}
+                        {rating}.00
                       </Typography>
                     </div>
                   </td>
+
                   {/* Price */}
                   <td className={classes}>
                     <Typography
@@ -223,7 +222,16 @@ const MyToys = () => {
                       variant="small"
                       color="blue-gray"
                       className="font-normal">
-                      {quantity}
+                      {quantity ? quantity : 0} pc
+                    </Typography>
+                  </td>
+                  {/* Description */}
+                  <td className={classes}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="max-w-[200px]  font-normal opacity-70 ">
+                      {description.slice(0, 60)}...
                     </Typography>
                   </td>
                   <td className={classes}>

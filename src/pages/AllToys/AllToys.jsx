@@ -191,7 +191,7 @@ const AllToys = () => {
                       variant="small"
                       color="blue-gray"
                       className="font-normal">
-                      {quantity} pc
+                      {quantity ? quantity : 0} pc
                     </Typography>
                   </td>
                   <td className={classes}>

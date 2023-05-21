@@ -41,22 +41,22 @@ const AddToy = () => {
     };
 
     console.log(toy);
-    
+
     fetch('http://localhost:5000/toys', {
-        method: 'POST',
-        headers: {
-            'content-type' : 'application/json'
-        },
-        body: JSON.stringify(toy)
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(toy),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if(data.insertedId){
-            toast.success('Toy added successfully')
+        if (data.insertedId) {
+          toast.success('Toy added successfully');
         }
       });
-      form.reset()
+    form.reset();
   };
   return (
     <div className="mx-auto max-w-7xl px-8  py-24">
@@ -108,6 +108,7 @@ const AddToy = () => {
               type="text"
               name="toyName"
               color="blue-gray"
+              required
             />
             <Input
               type="number"
@@ -115,13 +116,18 @@ const AddToy = () => {
               size="lg"
               label="Price"
               color="blue-gray"
+              required
             />
             <Select
               name="category"
               onChange={(e) => setSelected(e)}
               label="Category">
               {categories.map(({ label, value }) => (
-                <Option key={value} value={value}>{label} Toys</Option>
+                <Option
+                  key={value}
+                  value={value}>
+                  {label} Toys
+                </Option>
               ))}
               {/* <Option value="Math Toys">Math Toys</Option>
               <Option value="Science Toys">Science Toys</Option>
