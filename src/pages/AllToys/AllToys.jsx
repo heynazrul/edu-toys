@@ -32,13 +32,13 @@ const AllToys = () => {
   // Load all toy or  on search text query
   useEffect(() => {
     if (searchText === '') {
-      fetch(`https://edu-toys-server-seven.vercel.app/toys?page=${currentPage}&limit=${itemsPerPage}`)
+      fetch(`http://localhost:5000/allToys?page=${currentPage}&limit=${itemsPerPage}`)
         .then((res) => res.json())
         .then((data) => setToys(data));
     }
 
     if (searchText !== '') {
-      fetch(`https://edu-toys-server-seven.vercel.app/searchByToy/${searchText}`)
+      fetch(`http://localhost:5000/searchByToy/${searchText}`)
         .then((res) => res.json())
         .then((data) => {
           setToys(data);

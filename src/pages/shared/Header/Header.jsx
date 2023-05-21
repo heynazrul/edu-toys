@@ -28,8 +28,8 @@ const Header = () => {
   };
 
   return (
-    <>
-      <Navbar className="mx-auto max-w-7xl px-3 lg:px-8 ">
+    <div className="border-b-2 shad">
+      <Navbar className="mx-auto max-w-7xl px-3 shadow-none lg:px-8">
         <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
           {/* Logo */}
           <Link
@@ -87,7 +87,7 @@ const Header = () => {
           <NavList />
         </Collapse>
       </Navbar>
-    </>
+    </div>
   );
 };
 

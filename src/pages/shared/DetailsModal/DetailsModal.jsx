@@ -8,7 +8,7 @@ const DetailsModal = ({ handleOpen, open, clickedID }) => {
     if (!clickedID) {
       return;
     }
-    fetch(`https://edu-toys-server-seven.vercel.app/toy/${clickedID}`)
+    fetch(`http://localhost:5000/toy/${clickedID}`)
       .then((res) => res.json())
       .then((data) => setToy(data));
   }, [clickedID]);

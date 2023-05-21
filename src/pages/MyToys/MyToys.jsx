@@ -9,6 +9,8 @@ import {
   Avatar,
   IconButton,
   Tooltip,
+  Select,
+  Option,
 } from '@material-tailwind/react';
 import { useContext, useEffect, useState } from 'react';
 import { FaPlus, FaStar } from 'react-icons/fa';
@@ -24,6 +26,7 @@ const MyToys = () => {
   const [userToys, setUserToys] = useState([]);
   const [selectedToy, setSelectedToy] = useState({});
   const [reFetch, setReFetch] = useState(false);
+  const [order, setOrder] = useState(1);
 
   //   update modal action
   const [open, setOpen] = useState(false);
@@ -33,12 +36,27 @@ const MyToys = () => {
   };
 
   // get all jobs of user
-  const url = `https://edu-toys-server-seven.vercel.app/toys?email=${user.email}`;
+  const url = `http://localhost:5000/toys?email=${user.email}`;
   useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setUserToys(data));
-  }, [url, reFetch]);
+    if (order) {
+      fetch(url, {
+        headers: {
+          order,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setUserToys(data));
+    }
+  }, [url, reFetch, order]);
+
+  const changeOrderHandler = (e) => {
+    console.log(e);
+    const order = Number(e);
+    if (order) {
+      console.log('it has value', order);
+      setOrder(order);
+    }
+  };
 
   //   handle update form
   const handleUpdateToy = (e) => {
@@ -54,7 +72,7 @@ const MyToys = () => {
       quantity,
       description,
     };
-    fetch(`https://edu-toys-server-seven.vercel.app/toys/${_id}`, {
+    fetch(`http://localhost:5000/toys/${_id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',
@@ -85,7 +103,7 @@ const MyToys = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://edu-toys-server-seven.vercel.app/toys/${id}`, {
+        fetch(`http://localhost:5000/toys/${id}`, {
           method: 'DELETE',
         })
           .then((res) => res.json())
@@ -107,7 +125,7 @@ const MyToys = () => {
       <CardHeader
         floated={false}
         shadow={false}
-        className="rounded-none">
+        className="relative rounded-none">
         <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
             <Typography
@@ -124,11 +142,11 @@ const MyToys = () => {
           <div className="flex w-full shrink-0 gap-2 md:w-max">
             <Link
               to={'/user/add-toy'}
-              className="inline-flex">
+              className=" shrink-0">
               <Button
                 className="flex items-center gap-3"
                 color="blue"
-                size="sm">
+                size="md">
                 <FaPlus
                   strokeWidth={2}
                   className="h-4 w-4"
@@ -139,6 +157,18 @@ const MyToys = () => {
           </div>
         </div>
       </CardHeader>
+      {/* Sort select */}
+      <div className="absolute right-48 top-6">
+        <Select
+          size="md"
+          name="category"
+          onChange={(e) => changeOrderHandler(e)}
+          label="Sort by price">
+          <Option value="">Select Order</Option>
+          <Option value="1">Ascending</Option>
+          <Option value="-1">Descending</Option>
+        </Select>
+      </div>
       <CardBody className="overflow-x-scroll px-0">
         <table className="w-full min-w-max table-auto text-left">
           <thead>

@@ -8,13 +8,13 @@ const ShopByCategory = () => {
   const [toys, setToys] = useState([]);
 
   useEffect(() => {
-    fetch(`https://edu-toys-server-seven.vercel.app/toys/${activeTab}`)
+    fetch(`http://localhost:5000/toys/${activeTab}`)
       .then((res) => res.json())
       .then((data) => setToys(data));
   }, [activeTab]);
 
   useEffect(() => {
-    fetch('https://edu-toys-server-seven.vercel.app/categories')
+    fetch('http://localhost:5000/categories')
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, []);
