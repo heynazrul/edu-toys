@@ -47,8 +47,8 @@ const AllToys = () => {
     }
   }, [searchText, currentPage, itemsPerPage]);
 
-  console.log(totalToys);
-
+  // send user to login page with state
+  location.pathname = `/toy/${clickedID}`;
   const handleOpen = () => {
     if (!user) {
       navigate('/login', { replace: true, state: { from: location } });
@@ -191,7 +191,7 @@ const AllToys = () => {
                       variant="small"
                       color="blue-gray"
                       className="font-normal">
-                      {quantity}
+                      {quantity} pc
                     </Typography>
                   </td>
                   <td className={classes}>
