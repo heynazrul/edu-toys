@@ -13,17 +13,37 @@ import {
 import { Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 
 import { FaPlus } from 'react-icons/fa';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import DetailsModal from '../shared/DetailsModal/DetailsModal';
 import { AuthContext } from '../../providers/AuthProvider';
 
 const AllToys = () => {
   const [clickedID, setClickedID] = useState(null);
+  const [searchText, setSearchText] = useState('');
+  const [toys, setToys] = useState([]);
+  const [totalToys, setTotalToys] = useState(0)
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   const { user } = useContext(AuthContext);
+  // const { totalToys } = useLoaderData();
+
+
+  // Load all toy or  on search text query
+  useEffect(() => {
+    if (searchText === '') {
+      fetch('http://localhost:5000/toys')
+        .then((res) => res.json())
+        .then((data) => setToys(data));
+    }
+    if (searchText !== '') {
+      fetch(`http://localhost:5000/searchByToy/${searchText}`)
+        .then((res) => res.json())
+        .then((data) => setToys(data));
+      }
+      console.log(toys.length);
+  }, [searchText, toys.length]);
 
   const handleOpen = () => {
     if (!user) {
@@ -34,7 +54,7 @@ const AllToys = () => {
   };
 
   const TABLE_HEAD = ['Toy Name', 'Sub-category', 'Seller Name', 'Price', 'Quantity', ''];
-  const TABLE_ROWS = useLoaderData();
+  const TABLE_ROWS = toys;
 
   return (
     <Card className="mx-auto my-12 h-full max-w-7xl">
@@ -58,6 +78,7 @@ const AllToys = () => {
           <div className="flex w-full shrink-0 gap-2 md:w-max">
             <div className="w-full md:w-72">
               <Input
+                onChange={(e) => setSearchText(e.target.value)}
                 label="Search"
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               />

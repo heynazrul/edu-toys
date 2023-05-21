@@ -1,4 +1,4 @@
-import { MagnifyingGlassIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { PencilIcon } from '@heroicons/react/24/outline';
 import {
   Card,
   CardHeader,
@@ -8,7 +8,6 @@ import {
   CardFooter,
   Avatar,
   IconButton,
-  Input,
   Tooltip,
 } from '@material-tailwind/react';
 import { useContext, useEffect, useState } from 'react';
@@ -91,7 +90,6 @@ const MyToys = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-
             if (data.deletedCount > 0) {
               Swal.fire('Deleted!', 'Your toy has been deleted.', 'success');
               setReFetch(!reFetch);
@@ -115,21 +113,15 @@ const MyToys = () => {
             <Typography
               variant="h5"
               color="blue-gray">
-              All Toys
+              My Toys
             </Typography>
             <Typography
               color="gray"
               className="mt-1 font-normal">
-              All your product showcase in one place
+              Manage all of your added toys
             </Typography>
           </div>
           <div className="flex w-full shrink-0 gap-2 md:w-max">
-            <div className="w-full md:w-72">
-              <Input
-                label="Search"
-                icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-              />
-            </div>
             <Link
               to={'/user/add-toy'}
               className="inline-flex">
@@ -174,21 +166,23 @@ const MyToys = () => {
               return (
                 <tr key={toyName}>
                   <td className={classes}>
-                    <div className="flex items-center gap-3">
-                      <Avatar
-                        src={photo}
-                        alt={toyName}
-                        size="lg"
-                        variant="square"
-                        className="border border-blue-gray-50 bg-blue-gray-50/50 object-cover p-1"
-                      />
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-bold">
-                        {toyName}
-                      </Typography>
-                    </div>
+                    <Link to={`/toy/${_id}`}>
+                      <div className="flex items-center gap-3">
+                        <Avatar
+                          src={photo}
+                          alt={toyName}
+                          size="lg"
+                          variant="square"
+                          className="border border-blue-gray-50 bg-blue-gray-50/50 object-cover p-1"
+                        />
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-bold">
+                          {toyName}
+                        </Typography>
+                      </div>
+                    </Link>
                   </td>
                   <td className={classes}>
                     <Typography
