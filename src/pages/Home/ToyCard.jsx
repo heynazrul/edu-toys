@@ -25,7 +25,7 @@ const ToyCard = ({ toy }) => {
     <TabPanel
       key={toy._id}
       value={toy.category}>
-      <Card className="w-96 transform cursor-pointer duration-500 hover:translate-y-2">
+      <Card className="w-full transform cursor-pointer duration-500 hover:translate-y-2 sm:w-96">
         <CardHeader
           shadow={false}
           floated={false}

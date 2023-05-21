@@ -1,4 +1,4 @@
-import { PencilIcon, StarIcon } from '@heroicons/react/24/outline';
+import { PencilIcon } from '@heroicons/react/24/outline';
 import {
   Card,
   CardHeader,
@@ -9,7 +9,6 @@ import {
   Avatar,
   IconButton,
   Tooltip,
-  Rating,
 } from '@material-tailwind/react';
 import { useContext, useEffect, useState } from 'react';
 import { FaPlus, FaStar } from 'react-icons/fa';
@@ -34,7 +33,7 @@ const MyToys = () => {
   };
 
   // get all jobs of user
-  const url = `http://localhost:5000/toys?email=${user.email}`;
+  const url = `https://edu-toys-server-seven.vercel.app/toys?email=${user.email}`;
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
@@ -55,7 +54,7 @@ const MyToys = () => {
       quantity,
       description,
     };
-    fetch(`http://localhost:5000/toys/${_id}`, {
+    fetch(`https://edu-toys-server-seven.vercel.app/toys/${_id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',
@@ -86,7 +85,7 @@ const MyToys = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/toys/${id}`, {
+        fetch(`https://edu-toys-server-seven.vercel.app/toys/${id}`, {
           method: 'DELETE',
         })
           .then((res) => res.json())

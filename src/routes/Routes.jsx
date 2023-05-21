@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       {
         path: '/all-toys',
         element: <AllToys></AllToys>,
-        loader: () => fetch('http://localhost:5000/totalToys'),
+        loader: () => fetch('https://edu-toys-server-seven.vercel.app/totalToys'),
       },
       {
         path: '/user/add-toy',
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
             <SingleToy></SingleToy>
           </PrivateRoute>
         ),
-        loader: ({ params }) => fetch(`http://localhost:5000/toy/${params.id}`),
+        loader: ({ params }) => fetch(`https://edu-toys-server-seven.vercel.app/toy/${params.id}`),
       },
     ],
   },

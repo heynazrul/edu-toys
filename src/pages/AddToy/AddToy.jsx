@@ -10,7 +10,7 @@ const AddToy = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/categories')
+    fetch('https://edu-toys-server-seven.vercel.app/categories')
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, []);
@@ -42,7 +42,7 @@ const AddToy = () => {
 
     console.log(toy);
 
-    fetch('http://localhost:5000/toys', {
+    fetch('https://edu-toys-server-seven.vercel.app/toys', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
