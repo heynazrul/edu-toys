@@ -5,23 +5,63 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
   const LINKS = [
     {
-      title: 'Product',
-      items: ['Overview', 'Features', 'Solutions', 'Tutorials'],
+      title: 'User',
+      items: [
+        {
+          navTitle: 'My Toys',
+          path: '/user/my-toys',
+        },
+        {
+          navTitle: 'Add Toy',
+          path: '/user/add-toy',
+        },
+        {
+          navTitle: 'Register',
+          path: '/register',
+        },
+      ],
     },
+    // 'About us', 'Careers', 'Press', 'News'
     {
       title: 'Company',
-      items: ['About us', 'Careers', 'Press', 'News'],
+      items: [
+        {
+          navTitle: 'About Us',
+          path: '/about',
+        },
+        {
+          navTitle: 'Careers',
+          path: '/careers',
+        },
+        {
+          navTitle: 'News',
+          path: '/news',
+        },
+      ],
     },
     {
       title: 'Resource',
-      items: ['Blog', 'Newsletter', 'Events', 'Help center'],
+      items: [
+        {
+          navTitle: 'Blog',
+          path: '/blog',
+        },
+        {
+          navTitle: 'Events',
+          path: '/events',
+        },
+        {
+          navTitle: 'News',
+          path: '/news',
+        },
+      ],
     },
   ];
 
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="relative w-full">
-      <div className="mx-auto w-full max-w-7xl px-8">
+    <footer className="relative w-full bg-gray-100 ">
+      <div className="mx-auto w-full max-w-7xl px-8 pt-12">
         <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2">
           <Link
             to={'/'}
@@ -51,15 +91,15 @@ const Footer = () => {
                   className="mb-3 font-medium opacity-40">
                   {title}
                 </Typography>
-                {items.map((link) => (
-                  <li key={link}>
-                    <Typography
-                      as="a"
-                      href="#"
-                      color="gray"
-                      className="py-1.5 font-normal transition-colors hover:text-blue-gray-900">
-                      {link}
-                    </Typography>
+                {items.map(({ navTitle, path }) => (
+                  <li key={navTitle}>
+                    <Link to={path}>
+                      <Typography
+                        color="gray"
+                        className="py-1.5 font-normal text-md transition-colors hover:text-pink-600">
+                        {navTitle}
+                      </Typography>
+                    </Link>
                   </li>
                 ))}
               </ul>
