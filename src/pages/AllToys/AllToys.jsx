@@ -39,7 +39,7 @@ const AllToys = () => {
     }
 
     if (searchText !== '') {
-      fetch(`https://edu-toys-server-seven.vercel.app/searchByToy/${searchText}`)
+      fetch(`http://localhost:5000/searchByToy/${searchText}`)
         .then((res) => res.json())
         .then((data) => {
           setToys(data);
@@ -132,7 +132,7 @@ const AllToys = () => {
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
 
               return (
-                <tr key={toyName}>
+                <tr key={index}>
                   <td className={classes}>
                     <div className="flex items-center gap-3">
                       <Avatar
